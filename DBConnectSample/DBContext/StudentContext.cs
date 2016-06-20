@@ -22,5 +22,6 @@
         //的详细信息，请参阅 http://go.microsoft.com/fwlink/?LinkId=390109。
 
         public virtual DbSet<Student> Students { get; set; }
+        public virtual DbSet<StudentInfo> StudentInfos { get; set; }
     }
 }

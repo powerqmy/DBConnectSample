@@ -8,18 +8,17 @@ using System.Threading.Tasks;
 
 namespace DBConnectSample.Model
 {
-    [Table("Student")]
-    public class Student
+    public class StudentInfo
     {
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Required]
+        [Key]
         public int StudentNo { get; set; }
+        [ForeignKey("StudentNo")]
+        public virtual Student Student { get; set; }
 
         [StringLength(32)]
         [Required]
-        public string Name { get; set; }
+        public string Father { get; set; }
 
-        [Required]
-        public short Sex { get; set; }
+        
     }
 }

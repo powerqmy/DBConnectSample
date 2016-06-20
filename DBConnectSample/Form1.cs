@@ -25,10 +25,30 @@ namespace DBConnectSample
         {
             using (var context = new StudentContext())
             {
-                var student1 = new Student { StudentNo = 1, Name = "Student001", Sex = 0 };
-                var student2 = new Student { StudentNo = 2, Name = "Student002", Sex = 0 };
-                context.Students.Add(student1);
-                context.Students.Add(student2);
+                var newStudent = new Student { Name = "StudentNew", Sex = 0 };
+                context.Students.Add(newStudent);
+                context.SaveChanges();
+            }
+
+            MessageBox.Show("Add DB Complete");
+        }
+
+        private void AddStudentInfo()
+        {
+            using (var context = new StudentContext())
+            {
+                var studentNoList = (from student in context.Students
+                                      select student.StudentNo).ToList();
+
+                var studentinfoNoList = context.StudentInfos.Where(studentInfo => studentNoList.Contains(studentInfo.StudentNo)).Select(studentInfo => studentInfo.StudentNo).ToList();
+
+                var InsList = studentNoList.Where(no => !studentinfoNoList.Contains(no)).ToList();
+
+                foreach (var studentNo in InsList)
+                {
+                    var newStudentInfo = new StudentInfo { StudentNo = studentNo, Father = "Father" };
+                    context.StudentInfos.Add(newStudentInfo);
+                }
                 context.SaveChanges();
             }
 
@@ -101,6 +121,11 @@ namespace DBConnectSample
         private void button4_Click(object sender, EventArgs e)
         {
             FindStudentBySex(0);
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            AddStudentInfo();
         }
     }
 }
